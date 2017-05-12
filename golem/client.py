@@ -662,7 +662,7 @@ class Client(BaseApp):
         dir_manager.clear_dir(self.get_received_files_dir())
 
     def remove_task(self, task_id):
-        #self.p2pservice.remove_task(task_id)
+        self.services.golemservice.remove_task(task_id)
         pass
 
     def remove_task_header(self, task_id):
