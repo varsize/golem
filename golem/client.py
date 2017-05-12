@@ -135,7 +135,7 @@ class Client(BaseApp):
 
         self.nodes_manager_client = None
 
-        self.do_work_task = None
+        self.do_work_task = task.LoopingCall(self.__do_work)
 
         self.cfg = config
         self.send_snapshot = False
@@ -205,7 +205,6 @@ class Client(BaseApp):
         except Exception:
             log.critical('Can\'t start network. Giving up.', exc_info=True)
             sys.exit(1)
-        self.do_work_task = task.LoopingCall(self.__do_work)
         self.do_work_task.start(1, False)
         BaseApp.start(self)
 
@@ -663,7 +662,6 @@ class Client(BaseApp):
 
     def remove_task(self, task_id):
         self.services.golemservice.remove_task(task_id)
-        pass
 
     def remove_task_header(self, task_id):
         self.task_server.remove_task_header(task_id)
