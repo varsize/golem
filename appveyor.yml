@@ -32,6 +32,8 @@ environment:
 
       WHEELS: (%WHEEL_OPENEXR% %WHEEL_PYETHASH% %WHEEL_SECP256K1%)
 
+      PYWIN32: pywin32-221.win-amd64-py3.5.exe
+
       WHEELS_URL: https://raw.githubusercontent.com/wiki/golemfactory/golem/wheels
 
 cache:
@@ -77,11 +79,18 @@ install:
   # pip
   - pip install --disable-pip-version-check --user --upgrade pip
 
-  # prebuilt packages
+  # pywin32
   - if not exist %DIR_WHEELS% (
       mkdir %DIR_WHEELS%
     )
+  - if not exist %DIR_WHEELS%\%PYWIN32% (
+      appveyor DownloadFile %WHEELS_URL%/%PYWIN32% &&
+      move %PYWIN32% %DIR_WHEELS%\%PYWIN32%
+    )
+  - easy_install.exe %DIR_WHEELS%\%PYWIN32%
+  - easy_install.exe wheel
 
+  # prebuilt packages
   - for %%w in %WHEELS% do (
       if not exist %WHEELS_URL%\%%w (
         appveyor DownloadFile %WHEELS_URL%/%%w &&
@@ -91,7 +100,7 @@ install:
     )
 
   # requirements
-  - pip install six pytest mock coverage pytest-cov codecov pypiwin32
+  - pip install six pytest mock coverage pytest-cov codecov
   - pip install -r requirements.txt
   - python setup.py develop
 
