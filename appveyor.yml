@@ -33,8 +33,10 @@ environment:
       WHEELS: (%WHEEL_OPENEXR% %WHEEL_PYETHASH% %WHEEL_SECP256K1%)
 
       PYWIN32: pywin32-221.win-amd64-py3.5.exe
+      VC_REDIST_2015: vc_redist.x64.exe
 
       WHEELS_URL: https://raw.githubusercontent.com/wiki/golemfactory/golem/wheels
+      BINARIES_URL: https://raw.githubusercontent.com/wiki/golemfactory/golem/binaries
 
 cache:
   - '%DIR_OPENSSL%            -> appveyor.yml'
@@ -49,7 +51,7 @@ install:
 
   # ssl
   - if not exist %OPENSSL_DIR% (
-      appveyor DownloadFile https://raw.githubusercontent.com/wiki/golemfactory/golem/binaries/%VER_OPENSSL%.zip &&
+      appveyor DownloadFile %BINARIES_URL%/%VER_OPENSSL%.zip &&
       7z x %VER_OPENSSL%.zip -y -aoa -oC:\OpenSSL > NUL
     )
 
@@ -78,6 +80,12 @@ install:
 
   # pip
   - pip install --disable-pip-version-check --user --upgrade pip
+
+  # vc redist
+  - if not exist %VC_REDIST_2015% (
+      appveyor DownloadFile %BINARIES_URL%/%VC_REDIST_2015%
+    )
+  - %VC_REDIST_2015% /install /passive /norestart
 
   # pywin32
   - if not exist %DIR_WHEELS% (
