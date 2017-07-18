@@ -91,7 +91,7 @@ install:
     )
 
   # requirements
-  - pip install six pytest mock coverage pytest-cov codecov
+  - pip install six pytest mock coverage pytest-cov codecov pypiwin32
   - pip install -r requirements.txt
   - python setup.py develop
 
