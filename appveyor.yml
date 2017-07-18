@@ -85,7 +85,7 @@ install:
   - if not exist %VC_REDIST_2015% (
       appveyor DownloadFile %BINARIES_URL%/%VC_REDIST_2015%
     )
-  - %VC_REDIST_2015% /install /passive /norestart
+  - vc_redist.x64.exe /install /passive /norestart
 
   # pywin32
   - if not exist %DIR_WHEELS% (
