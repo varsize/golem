@@ -6,6 +6,9 @@ branches:
   - master
   - develop
 
+platform:
+  - x64
+
 environment:
   matrix:
     - PYTHON: "C:\Python35-x64"
