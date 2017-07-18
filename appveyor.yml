@@ -49,9 +49,6 @@ cache:
 init:
   - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
-on_finish:
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
-
 install:
   - set PATH=%PYTHON%;%PYTHON%\Scripts;%PYTHON%\Lib\site-packages\PyQt5;%DIR_OPENSSL%;%DIR_GETH%;%DIR_IPFS%;%SystemRoot%\system32;%PATH%
 
@@ -127,5 +124,6 @@ after_test:
   - codecov
 
 on_finish:
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
   - ps: Stop-Process -Id $IPFSProcess.Id
   - ps: Stop-Process -Id $HyperdriveProcess.Id
