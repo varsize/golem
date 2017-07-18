@@ -64,8 +64,8 @@ install:
 
   # ipfs
   - if not exist %DIR_IPFS% (
-      appveyor DownloadFile https://dist.ipfs.io/go-ipfs/v0.4.4/%VER_IPFS%.zip &&
-      7z x %VER_IPFS%.zip -y -aoa -oC:\ > NUL
+      appveyor DownloadFile https://dist.ipfs.io/go-ipfs/v0.4.4/%VER_IPFS% &&
+      7z x %VER_IPFS% -y -aoa -oC:\ > NUL
     )
 
   - ipfs init
