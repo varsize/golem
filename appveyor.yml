@@ -88,7 +88,6 @@ install:
       move %PYWIN32% %DIR_WHEELS%\%PYWIN32%
     )
   - easy_install.exe %DIR_WHEELS%\%PYWIN32%
-  - easy_install.exe wheel
 
   # prebuilt packages
   - for %%w in %WHEELS% do (
