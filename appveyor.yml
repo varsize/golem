@@ -19,7 +19,6 @@ environment:
 
       VER_GETH: geth-windows-amd64-1.6.7-ab5646c5
       VER_IPFS: go-ipfs_v0.4.4_windows-386
-      VER_OPENSSL: openssl-1.0.2l-x64_86-win64
 
       DIR_OPENSSL: C:\OpenSSL
       DIR_GETH: C:\%VER_GETH%
@@ -33,7 +32,6 @@ environment:
       WHEELS: (%WHEEL_OPENEXR% %WHEEL_PYETHASH% %WHEEL_SECP256K1%)
 
       PYWIN32: pywin32-221.win-amd64-py3.5.exe
-      VC_REDIST_2015: vc_redist.x64.exe
 
       WHEELS_URL: https://raw.githubusercontent.com/wiki/golemfactory/golem/wheels
       BINARIES_URL: https://raw.githubusercontent.com/wiki/golemfactory/golem/binaries
@@ -50,13 +48,7 @@ init:
   - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 install:
-  - set PATH=%PYTHON%;%PYTHON%\Scripts;%PYTHON%\Lib\site-packages\PyQt5;%DIR_OPENSSL%;%DIR_GETH%;%DIR_IPFS%;%SystemRoot%\system32;%PATH%
-
-  # ssl
-  - if not exist %OPENSSL_DIR% (
-      appveyor DownloadFile %BINARIES_URL%/%VER_OPENSSL%.zip &&
-      7z x %VER_OPENSSL%.zip -y -aoa -oC:\OpenSSL > NUL
-    )
+  - set PATH=%PYTHON%;%PYTHON%\Scripts;%PYTHON%\Lib\site-packages\PyQt5;C:\OpenSSL-Win64;%DIR_GETH%;%DIR_IPFS%;%SystemRoot%\system32;%PATH%
 
   # geth
   - if not exist %DIR_GETH% (
@@ -84,11 +76,12 @@ install:
   # pip
   - pip install --disable-pip-version-check --user --upgrade pip
 
-  # vc redist
-  - if not exist %VC_REDIST_2015% (
-      appveyor DownloadFile %BINARIES_URL%/%VC_REDIST_2015%
-    )
-  - vc_redist.x64.exe /install /passive /norestart
+  # virtualenv
+  - pip install virtualenv
+  - virtualenv --version
+
+  - virtualenv --clear venv
+  - venv\Scripts\activate.bat
 
   # pywin32
   - if not exist %DIR_WHEELS% (
@@ -118,9 +111,11 @@ build_script:
   - msbuild apps\rendering\resources\taskcollector\taskcollector.sln /p:Configuration=Release /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 
 test_script:
+  - venv\Scripts\activate.bat
   - pytest --cov=golem
 
 after_test:
+  - venv\Scripts\activate.bat
   - codecov
 
 on_finish:
