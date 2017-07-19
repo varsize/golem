@@ -314,11 +314,11 @@ class TestRenderingTask(TestDirFixture, LogTestCase):
             mock_is_windows.return_value = True
             windows_path = self.task._get_task_collector_path()
             expected_path = linux_path.split(os.path.sep)
-            assert windows_path == os.path.join(
+            assert windows_path.endswith(os.path.join(
                 os.path.join(*expected_path[:-2]),
                 'x64',
                 os.path.join(*expected_path[-2:]) + '.exe'
-            )
+            ))
 
 
 class TestRenderingTaskBuilder(TestDirFixture, LogTestCase):
