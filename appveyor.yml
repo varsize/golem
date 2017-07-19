@@ -108,7 +108,7 @@ install:
   - python setup.py develop
 
 build_script:
-  - msbuild apps\rendering\resources\taskcollector\taskcollector.sln /p:Configuration=Release /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  - msbuild apps\rendering\resources\taskcollector\taskcollector.sln /p:Configuration=Release /p:Platform=x64 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 
 test_script:
   - venv\Scripts\activate.bat

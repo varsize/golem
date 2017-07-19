@@ -17,6 +17,7 @@ Global
 		{26C38CC5-97D6-4277-A2FF-54E6FCA4BDE2}.Debug|x64.ActiveCfg = Debug|x64
 		{26C38CC5-97D6-4277-A2FF-54E6FCA4BDE2}.Release|Win32.ActiveCfg = Release|x64
 		{26C38CC5-97D6-4277-A2FF-54E6FCA4BDE2}.Release|x64.ActiveCfg = Release|x64
+		{26C38CC5-97D6-4277-A2FF-54E6FCA4BDE2}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
