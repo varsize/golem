@@ -57,13 +57,19 @@ def create_client(datadir):
                   estimated_blender_performance=1000.0)
 
 
+def cleanup():
+    logging.shutdown()
+    import gc
+    gc.collect()
+
+
 def run_requesting_node(datadir, num_subtasks=3):
     client = None
 
     def shutdown():
         client and client.quit()
-        logging.shutdown()
         reactor.running and reactor.callFromThread(reactor.stop)
+        cleanup()
 
     atexit.register(shutdown)
 
@@ -103,8 +109,9 @@ def run_computing_node(datadir, peer_address, fail_after=None):
 
     def shutdown():
         client and client.quit()
-        logging.shutdown()
         reactor.running and reactor.callFromThread(reactor.stop)
+        cleanup()
+
     atexit.register(shutdown)
 
     global node_kind
