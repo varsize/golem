@@ -34,7 +34,7 @@ node_kind = ""
 
 
 def report(msg):
-    print((format_msg(node_kind, os.getpid(), msg)))
+    print(format_msg(node_kind, os.getpid(), msg))
 
 
 def override_ip_info(*_, **__):
@@ -174,10 +174,11 @@ def run_simulation(num_computing_nodes=2, num_subtasks=3, timeout=120,
         stdout=subprocess.PIPE)
 
     # Scan the requesting node's stdout for the address
-    address_re = re.compile(b".+REQUESTOR.+Listening on (.+)")
+    address_re = re.compile(".+REQUESTOR.+Listening on (.+)")
     while True:
         line = requesting_proc.stdout.readline().strip()
         if line:
+            line = line.decode('utf-8')
             print(line)
             m = address_re.match(line)
             if m:
@@ -214,6 +215,7 @@ def run_simulation(num_computing_nodes=2, num_subtasks=3, timeout=120,
         while proc.returncode is None:
             line = proc.stdout.readline().strip()
             if line:
+                line = line.decode('utf-8')
                 print(line)
             if line == task_finished_status:
                 task_finished = True
