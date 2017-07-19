@@ -104,6 +104,7 @@ def run_computing_node(datadir, peer_address, fail_after=None):
     def shutdown():
         client and client.quit()
         logging.shutdown()
+        reactor.running and reactor.callFromThread(reactor.stop)
     atexit.register(shutdown)
 
     global node_kind
